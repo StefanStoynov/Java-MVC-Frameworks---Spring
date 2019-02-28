@@ -19,5 +19,25 @@
 *.tar.gz
 *.rar
 
+#**/Demos/
+#*.pptx
+#*.zip
+*.7z
+*.rar
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+### IntelliJ IDEA ###
+**/out/
+**/target/
+**/.idea/
+*.iws
+*.iml
+*.ipr
+*.class
+
+# Executables
+*.exe
+*.out
+*.app
