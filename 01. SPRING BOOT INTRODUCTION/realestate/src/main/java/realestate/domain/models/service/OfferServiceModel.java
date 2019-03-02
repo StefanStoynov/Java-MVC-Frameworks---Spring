@@ -1,30 +1,42 @@
-package realestate.domain.entities;
+package realestate.domain.models.service;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
-@Entity(name = "offers")
-public class Offer extends BaseEntity {
-
+public class OfferServiceModel {
+    private String id;
     private BigDecimal apartmentRent;
     private String apartmentType;
     private BigDecimal agencyCommission;
 
-    public Offer() {
+    public OfferServiceModel() {
     }
 
-    @Column(name = "apartment_rent")
+    public String getId() {
+        return this.id;
+    }
+
+    @NotNull
+    @DecimalMin("0.0001")
     public BigDecimal getApartmentRent() {
         return this.apartmentRent;
     }
-    @Column(name = "apartment_type")
+
+    @NotNull
+    @NotEmpty
     public String getApartmentType() {
         return this.apartmentType;
     }
-    @Column(name = "agency_commission")
+
+    @NotNull
+    @DecimalMin("0")
+    @DecimalMax("100")
     public BigDecimal getAgencyCommission() {
         return this.agencyCommission;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setApartmentRent(BigDecimal apartmentRent) {
