@@ -8,6 +8,8 @@ import realestate.domain.models.service.OfferServiceModel;
 import realestate.repository.OfferRepository;
 
 import javax.validation.Validator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OfferServiceImpl implements OfferService {
@@ -31,5 +33,15 @@ public class OfferServiceImpl implements OfferService {
         }
 
         this.offerRepository.saveAndFlush(this.modelMapper.map(offerServiceModel, Offer.class));
+    }
+
+    @Override
+    public List<OfferServiceModel> findAllOffers() {
+
+        List<OfferServiceModel> offers = this.offerRepository.findAll()
+                .stream()
+                .map(o-> this.modelMapper.map(o,OfferServiceModel.class))
+                .collect(Collectors.toList());
+        return offers;
     }
 }
