@@ -1,5 +1,6 @@
 package sstoynov.exodia.web.controllers;
 
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,9 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import sstoynov.exodia.domain.entities.User;
+import sstoynov.exodia.domain.models.binding.UserLoginBindingModel;
 import sstoynov.exodia.domain.models.binding.UserRegisterBindingModel;
 import sstoynov.exodia.domain.models.service.UserServiceModel;
 import sstoynov.exodia.service.UserService;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -48,6 +53,22 @@ public class UserController {
     @GetMapping("/login")
     public ModelAndView login(ModelAndView modelAndView){
         modelAndView.setViewName("login");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/login")
+    public ModelAndView loginConfirm(@ModelAttribute UserLoginBindingModel model, ModelAndView modelAndView, HttpSession session) {
+        UserServiceModel userServiceModel = this.userService.loginUser(this.modelMapper.map(model,UserServiceModel.class));
+
+        if (userServiceModel == null){
+            throw new IllegalIdentifierException("Login failed!");
+        }
+
+        session.setAttribute("userId", userServiceModel.getId());
+        session.setAttribute("username", userServiceModel.getUsername());
+
+        modelAndView.setViewName("home");
 
         return modelAndView;
     }
