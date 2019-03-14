@@ -55,7 +55,8 @@ public class CarServiceImpl implements CarService {
     public CarServiceModel findCarById(String id) {
         Car car = this.carRepository.findById(id).orElse(null);
 
-        return this.modelMapper.map(car, CarServiceModel.class);
+
+         return this.modelMapper.map(car, CarServiceModel.class);
 
     }
 }
